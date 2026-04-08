@@ -43,7 +43,7 @@ if status is-interactive
 
     # Git aliases
     alias gs='git status'
-    alias gp='git push'
+    alias gp='git push -u origin main'
     abbr -a ga git add
     abbr -a gss git status -s
     abbr -a gaa git add --all
