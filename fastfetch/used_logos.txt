@@ -1,2 +1,3 @@
 archlinux.png
 file.png
+loli.png
