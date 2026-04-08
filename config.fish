@@ -43,13 +43,14 @@ if status is-interactive
 
     # Git aliases
     alias gs='git status'
-    alias gaa='git add .'
-    alias gc='git commit -m'
     alias gp='git push'
+    abbr -a ga git add
+    abbr -a gss git status -s
+    abbr -a gaa git add --all
+    abbr -a gcm git commit -m
 
     # all abbreviations
     abbr -a c clear
-    abbr -a ga git add
     abbr -a mkdir mkdir -p
     abbr -a temple 'templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd"'
     abbr -a c clear
@@ -63,10 +64,8 @@ if status is-interactive
     abbr -a v nvim
     abbr -a vi nvim
     abbr -a vim nvim
-    abbr -a gss git status -s
-    abbr -a gaa git add --all
-    abbr -a gcm git commit -m
     abbr -a proxmox ssh -J nick@142.132.248.114 nick@192.168.1.2
+    abbr -a rm rm -rf
 
     # Go environment setup
     set -gx GOPATH $HOME/go
