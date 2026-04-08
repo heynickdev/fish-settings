@@ -42,9 +42,9 @@ if status is-interactive
     alias remove='paru -Rns'
 
     # Git aliases
-    alias gs='git status'
     abbr -a ga git add
-    abbr -a gss git status -s
+    abbr -a gs git status -s
+    abbr -a gss git status
     abbr -a gaa git add --all
     abbr -a gcm git commit -m
     abbr -a gpm git push -u origin main
