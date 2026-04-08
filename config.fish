@@ -32,8 +32,8 @@ if status is-interactive
     # Modern eza aliases (icons, dirs first, tree support)
     alias ls='eza -l --icons=always --group-directories-first'
     alias la='eza -la --icons=always --group-directories-first'
-    alias lt='eza --tree --level=2 --icons=always --group-directories-first'
-    alias lta='eza --tree --level=2 -a --icons=always --group-directories-first'
+    alias lt='eza -l --tree --level=2 --icons=always --group-directories-first'
+    alias lta='eza -l --tree --level=2 -a --icons=always --group-directories-first'
     alias grep='grep --color=auto'
 
     # Package management aliases
