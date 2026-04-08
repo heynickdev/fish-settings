@@ -22,8 +22,8 @@ if status is-interactive
     set -g fish_greeting
 
     # clear and c
-    alias clear='fish_greeting'
     alias cl='fish_greeting'
+    alias clear='fish_greeting'
     alias cd='z'
     alias v='nvim'
     alias vim='nvim'
