@@ -8,6 +8,13 @@ function fish_greeting
     fastfetch_random
 end
 
+if status is-login
+    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+        mkdir -p ~/.cache
+        exec start-hyprland >~/.cache/hyprland.log 2>&1
+    end
+end
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
 
@@ -15,9 +22,8 @@ if status is-interactive
     set -g fish_greeting
 
     # clear and c
-    alias c='fish_greeting' 
-    alias clear='fish_greeting' 
-    alias cl='fish_greeting' 
+    alias clear='fish_greeting'
+    alias cl='fish_greeting'
     alias cd='z'
     alias v='nvim'
     alias vim='nvim'
@@ -42,12 +48,33 @@ if status is-interactive
     alias gp='git push'
 
     # all abbreviations
-    abbr ga git add
-    abbr mkdir mkdir -p
+    abbr -a c clear
+    abbr -a ga git add
+    abbr -a mkdir mkdir -p
+    abbr -a temple 'templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd"'
+    abbr -a c clear
+    abbr -a homeserver "ssh mrcor@194.163.229.212"
+    abbr -a server "ssh root@87.106.44.220"
+    abbr -a home "ssh nick@192.168.1.153"
+    abbr -a prox "ssh root@142.132.248.114"
+    abbr -a python python3
+    abbr -a py python3
+    abbr -a p python3
+    abbr -a v nvim
+    abbr -a vi nvim
+    abbr -a vim nvim
+    abbr -a gss git status -s
+    abbr -a gaa git add --all
+    abbr -a gcm git commit -m
+    abbr -a proxmox ssh -J nick@142.132.248.114 nick@192.168.1.2
 
     # Go environment setup
     set -gx GOPATH $HOME/go
     fish_add_path $GOPATH/bin
 end
 
+set -g fish_ambiguous_completions
+set -q fish_case_insensitive_completion; or set -g fish_case_insensitive_completion 1
 zoxide init fish | source
+
+thefuck --alias | source
