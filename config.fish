@@ -37,9 +37,9 @@ if status is-interactive
     alias grep='grep --color=auto'
 
     # Package management aliases
-    alias update='paru -Syu'
-    alias install='paru -S'
-    alias remove='paru -Rns'
+    abbr update paru -Syu --noconfirm
+    abbr install paru -S --noconfirm
+    abbr remove paru -Rns --noconfirm
 
     # Git aliases
     abbr -a ga git add
@@ -67,6 +67,8 @@ if status is-interactive
     abbr -a vim nvim
     abbr -a proxmox ssh -J nick@142.132.248.114 nick@192.168.1.2
     abbr -a rm rm -rf
+    abbr -a gen-env openssl rand -base64 32
+    abbr -a gen-url openssl rand -hex 32
 
     # Go environment setup
     set -gx GOPATH $HOME/go
