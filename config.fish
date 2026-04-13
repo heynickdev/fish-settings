@@ -58,7 +58,7 @@ if status is-interactive
     abbr -a homeserver "ssh mrcor@194.163.229.212"
     abbr -a server "ssh root@87.106.44.220"
     abbr -a home "ssh nick@192.168.1.153"
-    abbr -a prox "ssh root@142.132.248.114"
+    abbr -a prox "ssh nick@142.132.248.114"
     abbr -a python python3
     abbr -a py python3
     abbr -a p python3
