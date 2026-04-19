@@ -80,3 +80,8 @@ set -q fish_case_insensitive_completion; or set -g fish_case_insensitive_complet
 zoxide init fish | source
 
 thefuck --alias | source
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /home/nick/.lmstudio/bin
+# End of LM Studio CLI section
+
