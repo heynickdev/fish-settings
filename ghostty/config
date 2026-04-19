@@ -37,7 +37,7 @@ app-notifications = no-clipboard-copy,no-config-reload
 keybind = ctrl+shift+n=new_window
 keybind = ctrl+t=new_tab
 keybind = ctrl+q=close_tab
-keybind = ctrl+a=select_all
+keybind = ctrl+shift+a=select_all
 keybind = ctrl+plus=increase_font_size:1
 keybind = ctrl+minus=decrease_font_size:1
 keybind = ctrl+zero=reset_font_size
