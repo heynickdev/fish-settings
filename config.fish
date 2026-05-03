@@ -24,7 +24,6 @@ if status is-interactive
     # clear and c
     alias cl='fish_greeting'
     alias clear='fish_greeting'
-    alias cd='z'
     alias v='nvim'
     alias vim='nvim'
     alias vnim='nvim'
@@ -35,6 +34,7 @@ if status is-interactive
     alias lt='eza -l --tree --level=2 --icons=always --group-directories-first'
     alias lta='eza -l --tree --level=2 -a --icons=always --group-directories-first'
     alias grep='grep --color=auto'
+    alias send='~/.local/bin/send'
 
     # Package management aliases
     abbr update paru -Syu --noconfirm
@@ -54,9 +54,8 @@ if status is-interactive
     abbr -a c clear
     abbr -a mkdir mkdir -p
     abbr -a temple 'templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd"'
-    abbr -a c clear
-    abbr -a homeserver "ssh mrcor@194.163.229.212"
-    abbr -a server "ssh root@87.106.44.220"
+    abbr -a homeserver "ssh nick@194.163.229.212"
+    abbr -a server "ssh nick@87.106.44.220"
     abbr -a home "ssh nick@192.168.1.153"
     abbr -a prox "ssh nick@142.132.248.114"
     abbr -a python python3
@@ -69,6 +68,8 @@ if status is-interactive
     abbr -a rm rm -rf
     abbr -a gen-env openssl rand -base64 32
     abbr -a gen-url openssl rand -hex 32
+    abbr -a tss tailscale status
+    abbr -a cd z
 
     # Go environment setup
     set -gx GOPATH $HOME/go
@@ -79,9 +80,13 @@ set -g fish_ambiguous_completions
 set -q fish_case_insensitive_completion; or set -g fish_case_insensitive_completion 1
 zoxide init fish | source
 
-thefuck --alias | source
 
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /home/nick/.lmstudio/bin
 # End of LM Studio CLI section
 
+
+# peon-ping quick controls
+function peon; bash /home/nick/.claude/hooks/peon-ping/peon.sh $argv; end
+
+thefuck --alias | source
