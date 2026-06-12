@@ -85,8 +85,15 @@ zoxide init fish | source
 set -gx PATH $PATH /home/nick/.lmstudio/bin
 # End of LM Studio CLI section
 
+# Set Neovim as the default system editor
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+set -gx SUDO_EDITOR nvim
 
 # peon-ping quick controls
 function peon; bash /home/nick/.claude/hooks/peon-ping/peon.sh $argv; end
 
 thefuck --alias | source
+
+# uv
+fish_add_path "/home/nick/.local/bin"
