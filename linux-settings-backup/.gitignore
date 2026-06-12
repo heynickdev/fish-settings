@@ -1,0 +1,6 @@
+*
+!.gitignore
+!README.md
+!restore-notes.md
+!backup.fish
+!restore.fish
