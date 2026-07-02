@@ -1,12 +1,6 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
-# overwrite greeting
 # potentially disabling fastfetch
-function fish_greeting
-    # smth smth
-    command clear
-    fastfetch_random
-end
 
 # if status is-login
 #     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
@@ -14,6 +8,13 @@ end
 #         exec start-hyprland >~/.cache/hyprland.log 2>&1
 #     end
 # end
+function fish_greeting
+    # smth smth
+    command clear
+    if not set -q NVIM
+        fastfetch_random
+    end
+end
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
@@ -80,7 +81,6 @@ set -g fish_ambiguous_completions
 set -q fish_case_insensitive_completion; or set -g fish_case_insensitive_completion 1
 zoxide init fish | source
 
-
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /home/nick/.lmstudio/bin
 # End of LM Studio CLI section
@@ -91,9 +91,14 @@ set -gx VISUAL nvim
 set -gx SUDO_EDITOR nvim
 
 # peon-ping quick controls
-function peon; bash /home/nick/.claude/hooks/peon-ping/peon.sh $argv; end
+function peon
+    bash /home/nick/.claude/hooks/peon-ping/peon.sh $argv
+end
 
 thefuck --alias | source
 
 # uv
 fish_add_path "/home/nick/.local/bin"
+
+# We just call clear here now, the greeting handles the rest
+clear
