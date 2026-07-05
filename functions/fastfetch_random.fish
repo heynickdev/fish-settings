@@ -2,7 +2,7 @@ function fastfetch_random
     set LOGO_DIR "$HOME/.config/fish/fastfetch/logos"
     command touch $LOGO_DIR"/used_logos.txt"
     set USED_FILE "$HOME/.config/fish/fastfetch/used_logos.txt"
-    set CONFIG_FILE "$HOME/.config/fish/fastfetch/presets/hyde.jsonc"
+    set CONFIG_FILE "$HOME/.config/fish/fastfetch/presets/hyde-hypr-comb.jsonc"
 
     # Check if the logo directory exists
     if not test -d "$LOGO_DIR"
