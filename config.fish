@@ -1,15 +1,7 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
-# potentially disabling fastfetch
-
-# if status is-login
-#     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-#         mkdir -p ~/.cache
-#         exec start-hyprland >~/.cache/hyprland.log 2>&1
-#     end
-# end
+# Custom fish greeting (runs fastfetch unless launched inside Neovim)
 function fish_greeting
-    # smth smth
     command clear
     if not set -q NVIM
         fastfetch_random
@@ -17,14 +9,12 @@ function fish_greeting
 end
 
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # Commands to run in interactive sessions
 
-    # Disable the default fish greeting
-    set -g fish_greeting
+    # Docker watcher abbreviation with fixed quote escaping
+    abbr -a wdock 'watch -n 1 "sudo docker ps --format \'table {{.Names}}\t{{.Image}}\t{{.Status}}\'"'
 
-    alias watch="watch -n 1 "sudo docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'""
-
-    # clear and c
+    # Aliases
     alias cl='clear'
     alias v='nvim'
     alias vim='nvim'
@@ -38,12 +28,12 @@ if status is-interactive
     alias grep='grep --color=auto'
     alias send='~/.local/bin/send'
 
-    # Package management aliases
-    abbr update paru -Syu --noconfirm
-    abbr install paru -S --noconfirm
-    abbr remove paru -Rns --noconfirm
+    # Package management abbreviations
+    abbr -a update 'paru -Syu --noconfirm'
+    abbr -a install 'paru -S --noconfirm'
+    abbr -a remove 'paru -Rns --noconfirm'
 
-    # Git aliases
+    # Git abbreviations
     abbr -a ga git add
     abbr -a gs git status -s
     abbr -a gss git status
@@ -52,7 +42,7 @@ if status is-interactive
     abbr -a gpm git push -u origin main
     abbr -a gp git pull
 
-    # all abbreviations
+    # Navigation, environment & system abbreviations
     abbr -a c clear
     abbr -a mkdir mkdir -p
     abbr -a temple 'templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd"'
@@ -63,9 +53,7 @@ if status is-interactive
     abbr -a python python3
     abbr -a py python3
     abbr -a p python3
-    abbr -a v nvim
     abbr -a vi nvim
-    abbr -a vim nvim
     abbr -a proxmox ssh -J nick@142.132.248.114 nick@192.168.1.2
     abbr -a rm rm -rf
     abbr -a gen-env openssl rand -base64 32
@@ -76,35 +64,33 @@ if status is-interactive
     # Go environment setup
     set -gx GOPATH $HOME/go
     fish_add_path $GOPATH/bin
+
+    # Interactive integrations
     thefuck --alias | source
+    zoxide init fish | source
 end
 
+# Fish shell completion settings
 set -g fish_ambiguous_completions
 set -q fish_case_insensitive_completion; or set -g fish_case_insensitive_completion 1
-zoxide init fish | source
 
-# Added by LM Studio CLI (lms)
-set -gx PATH $PATH /home/nick/.lmstudio/bin
-# End of LM Studio CLI section
+# Path additions
+fish_add_path /home/nick/.lmstudio/bin
+fish_add_path /home/nick/.local/bin
 
-# Set Neovim as the default system editor
+# Default system editor settings
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx SUDO_EDITOR nvim
+
+# Manpage viewer in Neovim
+set -gx MANPAGER "nvim +Man!"
+set -gx MANROFFOPT -c
 
 # peon-ping quick controls
 function peon
     bash /home/nick/.claude/hooks/peon-ping/peon.sh $argv
 end
 
-# uv
-fish_add_path "/home/nick/.local/bin"
-
-# We just call clear here now, the greeting handles the rest
-clear
-set -gx MANPAGER "nvim +Man!"
-set -gx MANPAGER "nvim +Man!"
-set -gx MANROFFOPT -c
-
-# Generated for envman. Do not edit.
+# Generated for envman
 test -s ~/.config/envman/load.fish; and source ~/.config/envman/load.fish
