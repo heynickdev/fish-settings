@@ -22,9 +22,10 @@ if status is-interactive
     # Disable the default fish greeting
     set -g fish_greeting
 
+    alias watch="watch -n 1 "sudo docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'""
+
     # clear and c
-    alias cl='fish_greeting'
-    alias clear='fish_greeting'
+    alias cl='clear'
     alias v='nvim'
     alias vim='nvim'
     alias vnim='nvim'
@@ -75,6 +76,7 @@ if status is-interactive
     # Go environment setup
     set -gx GOPATH $HOME/go
     fish_add_path $GOPATH/bin
+    thefuck --alias | source
 end
 
 set -g fish_ambiguous_completions
@@ -95,10 +97,14 @@ function peon
     bash /home/nick/.claude/hooks/peon-ping/peon.sh $argv
 end
 
-thefuck --alias | source
-
 # uv
 fish_add_path "/home/nick/.local/bin"
 
 # We just call clear here now, the greeting handles the rest
 clear
+set -gx MANPAGER "nvim +Man!"
+set -gx MANPAGER "nvim +Man!"
+set -gx MANROFFOPT -c
+
+# Generated for envman. Do not edit.
+test -s ~/.config/envman/load.fish; and source ~/.config/envman/load.fish
