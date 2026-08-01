@@ -102,10 +102,10 @@
       "keyColor": "blue"
     },
     {
-      "type": "custom",
+      "type": "gpu",
       "key": "󰢮 GPU Driver",
       "keyColor": "green",
-      "format": "nvidia (open source)"
+      "format": "{driver}"
     },
     {
       "type": "memory",

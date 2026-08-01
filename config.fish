@@ -176,7 +176,7 @@ end
 # Docker
 # ----------------------------------------------------------------------------
 
-function wdock --description "Continuously display Docker containers"
+function wdocker --description "Continuously display Docker containers"
     command watch -n 1 \
         'sudo docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}"'
 end

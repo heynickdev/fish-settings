@@ -49,6 +49,7 @@ function fastfetch_random
         --logo "$LOGO_DIR/$LOGO" \
         --logo-type "kitty" \
         --logo-height 12 \
+        --logo-preserve-aspect-ratio true \
         --logo-padding-top 6 \
         --logo-padding-right 8 \
         --logo-padding-left 8
