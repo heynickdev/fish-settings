@@ -100,6 +100,7 @@ end
 
 function cl --description "Clear the terminal"
     command clear
+    fastfetch_random
 end
 
 function v --wraps nvim --description "Open Neovim"
