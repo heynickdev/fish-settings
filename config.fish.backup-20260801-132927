@@ -1,0 +1,336 @@
+# ============================================================================
+# Fish configuration
+# Fedora + CachyOS + Kitty + Starship
+# Repository: github.com/heynickdev/fish-settings
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Environment available to interactive and non-interactive Fish processes
+# ----------------------------------------------------------------------------
+
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+set -gx SUDO_EDITOR nvim
+
+set -gx GOPATH "$HOME/go"
+
+set -gx MANPAGER "nvim +Man!"
+set -gx MANROFFOPT -c
+
+fish_add_path \
+    "$HOME/.local/bin" \
+    "$HOME/.cargo/bin" \
+    "$HOME/.local/share/bob/nvim-bin" \
+    "$GOPATH/bin"
+
+if test -d "$HOME/.lmstudio/bin"
+    fish_add_path "$HOME/.lmstudio/bin"
+end
+
+# Generated environment variables.
+if test -s "$HOME/.config/envman/load.fish"
+    source "$HOME/.config/envman/load.fish"
+end
+
+# Everything below is for interactive terminals only.
+if not status is-interactive
+    return
+end
+
+# ----------------------------------------------------------------------------
+# Normal Fish command-line editing
+# ----------------------------------------------------------------------------
+
+# Keep Fish's native editing:
+# - Enter executes normally
+# - Arrow keys edit normally
+# - Tab opens completions
+# - Autosuggestions remain enabled
+# - Alt+E / Alt+V opens the current command in Neovim
+fish_default_key_bindings
+
+# ----------------------------------------------------------------------------
+# Greeting
+# ----------------------------------------------------------------------------
+
+function fish_greeting
+    command clear
+
+    # Avoid displaying Fastfetch inside a Neovim terminal.
+    if set -q NVIM
+        return
+    end
+
+    if type -q fastfetch_random
+        fastfetch_random
+    else if type -q fastfetch
+        command fastfetch
+    end
+end
+
+# ----------------------------------------------------------------------------
+# Basic commands
+# ----------------------------------------------------------------------------
+
+function cl --description "Clear the terminal"
+    command clear
+end
+
+function v --wraps nvim --description "Open Neovim"
+    command nvim $argv
+end
+
+function vim --wraps nvim --description "Open Neovim"
+    command nvim $argv
+end
+
+function vnim --wraps nvim --description "Open Neovim"
+    command nvim $argv
+end
+
+function grep --wraps grep --description "Colourised grep"
+    command grep --color=auto $argv
+end
+
+if test -x "$HOME/.local/bin/send"
+    function send --description "Run the local send utility"
+        command "$HOME/.local/bin/send" $argv
+    end
+end
+
+# ----------------------------------------------------------------------------
+# Eza commands
+# ----------------------------------------------------------------------------
+
+if type -q eza
+    function ls --wraps eza --description "Detailed directory listing"
+        command eza \
+            --long \
+            --icons=always \
+            --group-directories-first \
+            $argv
+    end
+
+    function la --wraps eza --description "List including hidden files"
+        command eza \
+            --long \
+            --all \
+            --icons=always \
+            --group-directories-first \
+            $argv
+    end
+
+    function lt --wraps eza --description "Two-level directory tree"
+        command eza \
+            --long \
+            --tree \
+            --level=2 \
+            --icons=always \
+            --group-directories-first \
+            $argv
+    end
+
+    function lta --wraps eza --description "Tree including hidden files"
+        command eza \
+            --long \
+            --tree \
+            --level=2 \
+            --all \
+            --icons=always \
+            --group-directories-first \
+            $argv
+    end
+end
+
+# ----------------------------------------------------------------------------
+# Docker
+# ----------------------------------------------------------------------------
+
+function wdock --description "Continuously display Docker containers"
+    command watch -n 1 \
+        'sudo docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}"'
+end
+
+# ----------------------------------------------------------------------------
+# Remove abbreviations before recreating them
+# ----------------------------------------------------------------------------
+
+for abbreviation in \
+        update \
+        install \
+        remove \
+        ga \
+        gs \
+        gss \
+        gaa \
+        gcm \
+        gpm \
+        gp \
+        c \
+        mkdir \
+        temple \
+        homeserver \
+        server \
+        home \
+        prox \
+        proxmox \
+        python \
+        py \
+        p \
+        vi \
+        gen-env \
+        gen-url \
+        tss \
+        rr
+
+    abbr --erase $abbreviation 2>/dev/null
+end
+
+# ----------------------------------------------------------------------------
+# General abbreviations
+# ----------------------------------------------------------------------------
+
+abbr --add c clear
+abbr --add mkdir 'mkdir -p'
+
+abbr --add python python3
+abbr --add py python3
+abbr --add p python3
+
+abbr --add vi nvim
+
+abbr --add gen-env 'openssl rand -base64 32'
+abbr --add gen-url 'openssl rand -hex 32'
+
+abbr --add tss 'tailscale status'
+
+abbr --add temple \
+    'templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd"'
+
+# Explicit recursive removal without replacing normal rm.
+abbr --add rr 'rm -rf'
+
+# ----------------------------------------------------------------------------
+# Git abbreviations
+# ----------------------------------------------------------------------------
+
+abbr --add --global ga 'git add'
+abbr --add --global gs 'git status --short'
+abbr --add --global gss 'git status'
+abbr --add --global gaa 'git add --all'
+abbr --add --global gcm 'git commit -m'
+abbr --add --global gpm 'git push --set-upstream origin HEAD'
+abbr --add --global gp 'git pull'
+
+# ----------------------------------------------------------------------------
+# SSH abbreviations
+# ----------------------------------------------------------------------------
+
+abbr --add homeserver 'ssh nick@194.163.229.212'
+abbr --add server 'ssh nick@87.106.44.220'
+abbr --add home 'ssh nick@192.168.1.153'
+abbr --add prox 'ssh nick@142.132.248.114'
+
+abbr --add proxmox \
+    'ssh -J nick@142.132.248.114 nick@192.168.1.2'
+
+# ----------------------------------------------------------------------------
+# Cross-distribution package manager abbreviations
+# ----------------------------------------------------------------------------
+
+abbr --erase update 2>/dev/null
+abbr --erase install 2>/dev/null
+abbr --erase remove 2>/dev/null
+
+if type -q dnf
+    # Fedora, RHEL derivatives
+    abbr --add --global update 'sudo dnf upgrade --refresh'
+    abbr --add --global install 'sudo dnf install'
+    abbr --add --global remove 'sudo dnf remove'
+
+else if type -q paru
+    # CachyOS / Arch with paru
+    abbr --add --global update 'paru -Syu'
+    abbr --add --global install 'paru -S'
+    abbr --add --global remove 'paru -Rns'
+
+else if type -q yay
+    # Arch with yay
+    abbr --add --global update 'yay -Syu'
+    abbr --add --global install 'yay -S'
+    abbr --add --global remove 'yay -Rns'
+
+else if type -q pacman
+    # Plain Arch Linux
+    abbr --add --global update 'sudo pacman -Syu'
+    abbr --add --global install 'sudo pacman -S'
+    abbr --add --global remove 'sudo pacman -Rns'
+
+else if type -q apt
+    # Debian / Ubuntu
+    abbr --add --global update 'sudo apt update && sudo apt full-upgrade'
+    abbr --add --global install 'sudo apt install'
+    abbr --add --global remove 'sudo apt remove'
+
+else if type -q zypper
+    # openSUSE
+    abbr --add --global update 'sudo zypper refresh && sudo zypper update'
+    abbr --add --global install 'sudo zypper install'
+    abbr --add --global remove 'sudo zypper remove'
+
+else if type -q apk
+    # Alpine Linux
+    abbr --add --global update 'sudo apk update && sudo apk upgrade'
+    abbr --add --global install 'sudo apk add'
+    abbr --add --global remove 'sudo apk del'
+
+else if type -q xbps-install
+    # Void Linux
+    abbr --add --global update 'sudo xbps-install -Syu'
+    abbr --add --global install 'sudo xbps-install'
+    abbr --add --global remove 'sudo xbps-remove -R'
+end
+
+# ----------------------------------------------------------------------------
+# Optional integrations
+# ----------------------------------------------------------------------------
+
+# FZF keybindings and completion.
+if type -q fzf
+    fzf --fish 2>/dev/null | source
+end
+
+# Peon-ping controls.
+if test -f "$HOME/.claude/hooks/peon-ping/peon.sh"
+    function peon
+        command bash "$HOME/.claude/hooks/peon-ping/peon.sh" $argv
+    end
+end
+
+# Thefuck starts a Python process whenever Fish starts, so it is disabled
+# by default for faster terminal startup. Uncomment when needed.
+#
+# if type -q thefuck
+#     thefuck --alias | source
+# end
+
+# ----------------------------------------------------------------------------
+# Zoxide
+# ----------------------------------------------------------------------------
+
+# Replace cd with Zoxide's smarter directory navigation.
+# Fish's original command remains available as `builtin cd`.
+if type -q zoxide
+    zoxide init fish --cmd cd | source
+end
+
+# ----------------------------------------------------------------------------
+# Starship
+# ----------------------------------------------------------------------------
+
+set -gx STARSHIP_CONFIG "$HOME/.config/starship.toml"
+
+if type -q starship
+    starship init fish | source
+    enable_transience
+end
