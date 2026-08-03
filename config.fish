@@ -372,3 +372,7 @@ if type -q starship
     # Collapse completed prompts while keeping the active prompt complete.
     enable_transience
 end
+
+command -q mise; and mise activate fish | source
+
+command -q direnv; and direnv hook fish | source

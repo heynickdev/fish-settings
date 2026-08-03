@@ -1,0 +1,16 @@
+complete -c maven -f
+
+complete -c maven -n "__fish_use_subcommand" -a create -d "Create a Maven Java project"
+complete -c maven -n "__fish_use_subcommand" -a clean -d "Remove build output"
+complete -c maven -n "__fish_use_subcommand" -a compile -d "Compile the project"
+complete -c maven -n "__fish_use_subcommand" -a test -d "Run tests"
+complete -c maven -n "__fish_use_subcommand" -a package -d "Package the project"
+complete -c maven -n "__fish_use_subcommand" -a verify -d "Run verification checks"
+complete -c maven -n "__fish_use_subcommand" -a install -d "Install into local repository"
+complete -c maven -n "__fish_use_subcommand" -a run -d "Run a Java main class"
+complete -c maven -n "__fish_use_subcommand" -a tree -d "Show dependency tree"
+complete -c maven -n "__fish_use_subcommand" -a dependencies -d "List dependencies"
+complete -c maven -n "__fish_use_subcommand" -a wrapper -d "Generate Maven Wrapper"
+complete -c maven -n "__fish_use_subcommand" -a version -d "Show Maven version"
+complete -c maven -n "__fish_use_subcommand" -a mvn -d "Run a raw Maven command"
+complete -c maven -n "__fish_use_subcommand" -a help -d "Show available commands"
