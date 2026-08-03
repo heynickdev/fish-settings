@@ -39,7 +39,7 @@ $git_branch\
 $git_status\
 $git_state\
 $cmd_duration\
-[  ](bold dimmed blue)$fill\
+$fill\
 $battery\
 $time\
 $line_break\
