@@ -198,7 +198,7 @@ am_or_rebase = "AM/REBASE"
 min_time = 1500
 show_milliseconds = false
 
-format = "[  $duration ]($style)  "
+format = "[  $duration ]($style)"
 style = "bold fg:yellow"
 
 # ----------------------------------------------------------------------------
