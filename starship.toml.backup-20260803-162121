@@ -1,0 +1,273 @@
+# ============================================================================
+# Starship prompt
+# Fedora + CachyOS + Arch Linux + Fish + Kitty
+#
+# Stored inside ~/.config/fish so it can be committed to fish-settings.
+# ============================================================================
+
+"$schema" = "https://starship.rs/config-schema.json"
+
+add_newline = false
+
+# Keep prompt rendering responsive.
+command_timeout = 1000
+scan_timeout = 30
+
+palette = "nick"
+
+# ----------------------------------------------------------------------------
+# Prompt layout
+#
+# Laptop:
+#
+#  ~/.config/fish  main ?2 ~1 +1 ✓ ───────── 󰂃 85%   13:17 01/08/26
+# ❯
+#
+# Desktop without a system battery:
+#
+#  ~/.config/fish  main ✓ ───────────────────   13:17 01/08/26
+# ❯
+#
+# The battery module produces no output when no system battery is detected.
+# Its own format adds the gap between the line and battery.
+# ----------------------------------------------------------------------------
+
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$cmd_duration\
+$fill\
+$battery\
+$time\
+$line_break\
+$character"""
+
+# ----------------------------------------------------------------------------
+# Colour palette
+# ----------------------------------------------------------------------------
+
+[palettes.nick]
+foreground = "#cdd6f4"
+muted = "#6c7086"
+line = "#45475a"
+
+cyan = "#89dceb"
+blue = "#89b4fa"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+orange = "#fab387"
+red = "#f38ba8"
+purple = "#cba6f7"
+
+# ----------------------------------------------------------------------------
+# Operating-system icon
+#
+# Only the icon is shown—no operating-system name.
+#
+# CachyOS and Arch use the Arch logo.
+# Fedora uses the Fedora logo.
+# Other distributions use their relevant Nerd Font logo where configured.
+# ----------------------------------------------------------------------------
+
+[os]
+disabled = false
+format = "[$symbol]($style) "
+style = "bold fg:cyan"
+
+[os.symbols]
+Arch = ""
+CachyOS = ""
+Artix = ""
+EndeavourOS = ""
+
+Fedora = ""
+Nobara = ""
+Redhat = ""
+RedHatEnterprise = ""
+
+Debian = ""
+Ubuntu = ""
+Alpine = ""
+openSUSE = ""
+NixOS = ""
+Void = ""
+
+Linux = ""
+Unknown = ""
+
+# ----------------------------------------------------------------------------
+# Directory
+#
+# There is intentionally no separate folder icon. The operating-system icon
+# is the only icon at the far left.
+# ----------------------------------------------------------------------------
+
+[directory]
+format = "[$path]($style)"
+style = "bold fg:cyan"
+
+home_symbol = "~"
+
+truncation_length = 4
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+read_only = " 󰌾"
+read_only_style = "bold fg:red"
+
+# ----------------------------------------------------------------------------
+# Git branch
+# ----------------------------------------------------------------------------
+
+[git_branch]
+symbol = " "
+
+format = " [$symbol$branch]($style)"
+style = "bold fg:muted"
+
+truncation_length = 32
+truncation_symbol = "…"
+
+# ----------------------------------------------------------------------------
+# Git status
+#
+# Each indicator includes its file or commit count.
+# ----------------------------------------------------------------------------
+
+[git_status]
+format = "$conflicted$stashed$untracked$worktree_modified$worktree_deleted$index_added$index_modified$index_deleted$renamed$ahead_behind"
+
+# Conflicted files.
+conflicted = " [!${count}](bold fg:red)"
+
+# Git stashes.
+stashed = " [≡${count}](bold fg:purple)"
+
+# Files that Git is not tracking.
+untracked = " [?${count}](bold fg:yellow)"
+
+# Modified or deleted files that have not been staged.
+worktree_modified = " [~${count}](bold fg:yellow)"
+worktree_deleted = " [✘${count}](bold fg:red)"
+worktree_typechanged = " [T${count}](bold fg:orange)"
+
+# Changes staged for the next commit.
+index_added = " [+${count}](bold fg:green)"
+index_modified = " [●${count}](bold fg:green)"
+index_deleted = " [-${count}](bold fg:red)"
+index_typechanged = " [T+${count}](bold fg:green)"
+
+# Renamed files.
+renamed = " [»${count}](bold fg:blue)"
+
+# Local commits compared with the tracked remote branch.
+ahead = " [⇡${count}](bold fg:green)"
+behind = " [⇣${count}](bold fg:red)"
+diverged = " [⇕⇡${ahead_count}⇣${behind_count}](bold fg:red)"
+up_to_date = " [✓](bold fg:green)"
+
+# Use Starship's built-in Git implementation.
+use_git_executable = false
+
+# ----------------------------------------------------------------------------
+# Git operation state
+#
+# Shows active operations such as merging, rebasing or cherry-picking.
+# ----------------------------------------------------------------------------
+
+[git_state]
+format = " [($state( $progress_current/$progress_total))]($style)"
+style = "bold fg:yellow"
+
+rebase = "REBASING"
+merge = "MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+
+# ----------------------------------------------------------------------------
+# Command duration
+# ----------------------------------------------------------------------------
+
+[cmd_duration]
+min_time = 1500
+show_milliseconds = false
+
+format = "[ $duration]($style)  "
+style = "bold fg:yellow"
+
+# ----------------------------------------------------------------------------
+# Horizontal line
+# ----------------------------------------------------------------------------
+
+[fill]
+symbol = "─"
+style = "fg:line"
+
+# ----------------------------------------------------------------------------
+# Battery
+#
+# The leading two spaces in the format create the requested gap after the
+# horizontal line.
+#
+# Threshold 100 means that when a system battery exists, its percentage is
+# always visible. On a normal wired desktop without a battery, Starship does
+# not render this module.
+# ----------------------------------------------------------------------------
+
+[battery]
+disabled = false
+
+format = "  [$symbol$percentage]($style)"
+
+full_symbol = "󰁹 "
+charging_symbol = "󰂄 "
+discharging_symbol = "󰂃 "
+unknown_symbol = "󰂑 "
+empty_symbol = "󰂎 "
+
+[[battery.display]]
+threshold = 20
+style = "bold fg:red"
+
+[[battery.display]]
+threshold = 50
+style = "bold fg:yellow"
+
+[[battery.display]]
+threshold = 100
+style = "bold fg:green"
+
+# ----------------------------------------------------------------------------
+# Time and date
+#
+# The leading spaces provide separation from the battery. When the battery is
+# absent, they provide a gap directly after the horizontal line.
+# ----------------------------------------------------------------------------
+
+[time]
+disabled = false
+use_12hr = false
+
+time_format = "%H:%M %d/%m/%y"
+
+format = "  [ $time]($style)"
+style = "bold fg:blue"
+
+# ----------------------------------------------------------------------------
+# Input character
+# ----------------------------------------------------------------------------
+
+[character]
+success_symbol = "[❯](bold fg:green)"
+error_symbol = "[❯](bold fg:red)"
+
+vimcmd_symbol = "[❮](bold fg:yellow)"
+vimcmd_replace_one_symbol = "[❮](bold fg:purple)"
+vimcmd_replace_symbol = "[❮](bold fg:purple)"
+vimcmd_visual_symbol = "[❮](bold fg:cyan)"
