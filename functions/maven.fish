@@ -16,7 +16,7 @@ function maven --description "Friendly Maven command shortcuts"
     switch $subcommand
         case create new
             set -l artifact_id $argv[2]
-            set -l group_id com.nick
+            set -l group_id dev.heynick 
 
             if test -z "$artifact_id"
                 echo "Usage: maven create <artifact-id> [group-id]"
